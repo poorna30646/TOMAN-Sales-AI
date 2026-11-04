@@ -1,0 +1,452 @@
+import {
+  AgentRun,
+  AlertItem,
+  Campaign,
+  Integration,
+  Lead,
+  SalesAgent,
+  WorkspaceMetrics,
+} from '../types';
+
+export const DEMO_CREDENTIALS = {
+  email: 'owner@toman.demo',
+  password: 'Toman@2026',
+};
+
+export const DEMO_OWNER = {
+  name: 'Arjun Nair',
+  workspace: 'Luma Living',
+  initials: 'AN',
+};
+
+export const demoAgents: SalesAgent[] = [
+  {
+    id: 'jarvis',
+    name: 'Jarvis',
+    role: 'Jarvis Orchestrator',
+    summary: 'Turns a business goal into a safe, reviewable sales plan.',
+    icon: '✦',
+    color: '#635BFF',
+    status: 'Working',
+    currentTask: 'Coordinating the festive repeat-buyer campaign',
+  },
+  {
+    id: 'strategy',
+    name: 'Maya',
+    role: 'Growth Strategist',
+    summary: 'Finds the audience, offer, budget, and message angle.',
+    icon: '↗',
+    color: '#16B88A',
+    status: 'Ready',
+    currentTask: 'Ready to shape the next campaign brief',
+  },
+  {
+    id: 'creative',
+    name: 'Nova',
+    role: 'Creative Studio',
+    summary: 'Writes ads, emails, captions, and landing-page copy.',
+    icon: '✎',
+    color: '#E55767',
+    status: 'Waiting for review',
+    currentTask: 'Copy draft is ready for your approval',
+  },
+  {
+    id: 'media',
+    name: 'Pixel',
+    role: 'Video & Image Lab',
+    summary: 'Creates image and video ad concepts from your business brief.',
+    icon: '◫',
+    color: '#F5A524',
+    status: 'Ready',
+    currentTask: 'Ready to prepare a creative direction',
+  },
+  {
+    id: 'operations',
+    name: 'Orbit',
+    role: 'Campaign Operations',
+    summary: 'Plans schedules, audiences, consent checks, and experiments.',
+    icon: '◷',
+    color: '#16B8D4',
+    status: 'Ready',
+    currentTask: 'Ready to validate channels and scheduling',
+  },
+  {
+    id: 'publisher',
+    name: 'Pulse',
+    role: 'Publisher & Insights',
+    summary: 'Prepares approved work for publishing and tracks results.',
+    icon: '◎',
+    color: '#635BFF',
+    status: 'Ready',
+    currentTask: 'Waiting for an approved campaign',
+  },
+  {
+    id: 'outreach',
+    name: 'Echo',
+    role: 'Outreach Assistant',
+    summary: 'Prepares consent-aware email, WhatsApp, and calling follow-ups.',
+    icon: '◌',
+    color: '#16B88A',
+    status: 'Ready',
+    currentTask: 'Ready to qualify today’s highest-intent leads',
+  },
+];
+
+export const demoAgentRuns: AgentRun[] = [
+  {
+    id: 'run-festive',
+    title: 'Festive repeat-buyer campaign',
+    prompt: 'Re-engage customers who showed interest in the festive collection.',
+    status: 'Awaiting owner review',
+    assignedAgentIds: ['jarvis', 'strategy', 'creative', 'operations'],
+    createdBy: 'Jarvis',
+    output: 'Audience, email copy, WhatsApp copy, and a safe schedule are ready for review.',
+    createdAt: 'Today, 9:40 AM',
+  },
+  {
+    id: 'run-consultation',
+    title: 'High-intent consultation follow-up',
+    prompt: 'Invite high-scoring leads to a short design consultation.',
+    status: 'Creating',
+    assignedAgentIds: ['jarvis', 'creative', 'outreach'],
+    createdBy: 'Owner',
+    output: 'Echo is checking consent while Nova prepares a personalized note.',
+    createdAt: 'Today, 10:05 AM',
+  },
+];
+
+export const demoIntegrations: Integration[] = [
+  {
+    id: 'email',
+    provider: 'Email',
+    icon: '✉',
+    color: '#635BFF',
+    status: 'Sandbox connected',
+    capability: 'Draft and review customer emails',
+    account: 'Luma Living demo',
+  },
+  {
+    id: 'whatsapp',
+    provider: 'WhatsApp',
+    icon: '◌',
+    color: '#16B88A',
+    status: 'Sandbox connected',
+    capability: 'Prepare consent-aware follow-ups',
+    account: 'Demo business number',
+  },
+  {
+    id: 'facebook',
+    provider: 'Facebook',
+    icon: 'f',
+    color: '#1877F2',
+    status: 'Not connected',
+    capability: 'Review feed and ad campaign drafts',
+  },
+  {
+    id: 'instagram',
+    provider: 'Instagram',
+    icon: '◉',
+    color: '#D9467A',
+    status: 'Not connected',
+    capability: 'Review post, reel, and story drafts',
+  },
+  {
+    id: 'google-ads',
+    provider: 'Google Ads',
+    icon: 'A',
+    color: '#4285F4',
+    status: 'Not connected',
+    capability: 'Plan approved search and display campaigns',
+  },
+  {
+    id: 'youtube',
+    provider: 'YouTube',
+    icon: '▶',
+    color: '#FF3D3D',
+    status: 'Not connected',
+    capability: 'Review video-ad and channel drafts',
+  },
+];
+
+export const demoLeads: Lead[] = [
+  {
+    id: 'lead-priya',
+    name: 'Priya Shah',
+    company: 'Canvas & Co.',
+    initials: 'PS',
+    score: 94,
+    stage: 'Hot',
+    intent: 'Asked about a bulk order',
+    action: 'Send the festive collection proposal',
+    phone: '+91 98765 21034',
+    email: 'priya@canvasandco.demo',
+    consent: 'Email + WhatsApp approved',
+    value: '₹68,000 potential value',
+    lastContact: 'Replied 18 min ago',
+    summary:
+      'Priya is furnishing a boutique stay and asked for pricing on a 12-piece set. She responds fastest between 11:00 and 14:00.',
+  },
+  {
+    id: 'lead-rahul',
+    name: 'Rahul Mehta',
+    company: 'Mehta Residence',
+    initials: 'RM',
+    score: 88,
+    stage: 'Interested',
+    intent: 'Viewed the velvet collection twice',
+    action: 'Offer a design consultation',
+    phone: '+91 98450 11471',
+    email: 'rahul@mehtaresidence.demo',
+    consent: 'Email approved',
+    value: '₹42,500 potential value',
+    lastContact: 'Visited website yesterday',
+    summary:
+      'Rahul repeatedly explored the velvet sofa collection. He has not replied yet, but his engagement indicates a high-intent consultation opportunity.',
+  },
+  {
+    id: 'lead-aditi',
+    name: 'Aditi Rao',
+    company: 'Aditi Rao Studio',
+    initials: 'AR',
+    score: 81,
+    stage: 'Interested',
+    intent: 'Requested catalogue and dimensions',
+    action: 'Share product sheet with a personal note',
+    phone: '+91 98810 65210',
+    email: 'aditi@rao-studio.demo',
+    consent: 'Email + WhatsApp approved',
+    value: '₹36,800 potential value',
+    lastContact: 'Last contacted 2 days ago',
+    summary:
+      'Aditi is an interior designer sourcing for a client. She wants dimensions and lead times before scheduling a conversation.',
+  },
+  {
+    id: 'lead-kabir',
+    name: 'Kabir Malhotra',
+    company: 'The Olive Table',
+    initials: 'KM',
+    score: 73,
+    stage: 'Follow-up',
+    intent: 'Downloaded the hospitality brochure',
+    action: 'Ask about his opening date',
+    phone: '+91 98110 44206',
+    email: 'kabir@olivetable.demo',
+    consent: 'Email approved',
+    value: '₹54,000 potential value',
+    lastContact: 'Brochure downloaded 4 days ago',
+    summary:
+      'Kabir is planning a restaurant opening and downloaded the hospitality brochure. A timing-focused follow-up is the best next step.',
+  },
+  {
+    id: 'lead-sona',
+    name: 'Sona Iyer',
+    company: 'Home by Sona',
+    initials: 'SI',
+    score: 62,
+    stage: 'New',
+    intent: 'New website enquiry',
+    action: 'Qualify preferred style and budget',
+    phone: '+91 99672 51049',
+    email: 'sona@homebysona.demo',
+    consent: 'Needs consent',
+    value: '₹25,000 potential value',
+    lastContact: 'Created today',
+    summary:
+      'Sona submitted a showroom enquiry. Capture consent and preferences before adding her to outreach.',
+  },
+];
+
+export const demoCampaigns: Campaign[] = [
+  {
+    id: 'campaign-festive',
+    title: 'Festive repeat-buyer campaign',
+    status: 'Needs approval',
+    audience: '48 high-intent customers',
+    channel: 'Email + WhatsApp',
+    expectedOutcome: '9–13 expected replies',
+    scheduledFor: 'Tomorrow, 10:30 AM',
+    description: 'A warm, personalized return-customer campaign for the festive collection.',
+    message:
+      'Hi {{first_name}}, we selected a few festive pieces that match the styles you loved previously. Reply with your favourite look and we will reserve a private preview for you.',
+    why:
+      'These customers engaged with Luma Living in the last 90 days, have consent, and have a history of premium-category purchases.',
+    progress: 'Ready for owner review',
+    color: '#F5A524',
+  },
+  {
+    id: 'campaign-designer',
+    title: 'Interior designer preview',
+    status: 'Scheduled',
+    audience: '23 design studios',
+    channel: 'Email',
+    expectedOutcome: '6 consultation requests',
+    scheduledFor: 'Friday, 11:00 AM',
+    description: 'A curated early-access invitation for interior designers.',
+    message:
+      'We are opening a private preview of the new Luma Living collection for our design partners. Would you like an early catalogue and consultation slot?',
+    why:
+      'Design partners with active projects are most likely to convert before the public launch.',
+    progress: 'Scheduled after owner approval',
+    color: '#16B88A',
+  },
+  {
+    id: 'campaign-welcome',
+    title: 'New enquiry welcome flow',
+    status: 'Draft',
+    audience: '17 new enquiries',
+    channel: 'Email',
+    expectedOutcome: '5 qualification replies',
+    scheduledFor: 'Not scheduled',
+    description: 'A simple first-response flow to learn style, timeline, and budget.',
+    message:
+      'Welcome to Luma Living. Tell us what space you are creating, and Jarvis will help our team prepare the right collection for you.',
+    why:
+      'Responding quickly to new enquiries materially improves the likelihood of a consultation.',
+    progress: 'Draft — needs refinement',
+    color: '#9AA2B4',
+  },
+];
+
+export const demoAlerts: AlertItem[] = [
+  {
+    id: 'alert-priya',
+    title: 'Priya Shah replied — interested in a bulk order',
+    detail: 'Jarvis recommends a 15-minute consultation and a festive collection proposal.',
+    time: '18 min ago',
+    kind: 'reply',
+    unread: true,
+  },
+  {
+    id: 'alert-approval',
+    title: 'Festive repeat-buyer campaign needs approval',
+    detail: '48 consented high-intent customers are ready for owner review.',
+    time: '42 min ago',
+    kind: 'approval',
+    unread: true,
+  },
+  {
+    id: 'alert-import',
+    title: 'Luma_Leads_October.xlsx imported',
+    detail: '84 leads were validated, deduplicated, and added to your sales workspace.',
+    time: 'Today, 9:12 AM',
+    kind: 'campaign',
+  },
+  {
+    id: 'alert-insight',
+    title: 'Your reply rate is 31% above the usual average',
+    detail: 'Personalized product recommendations are driving the uplift this month.',
+    time: 'Yesterday',
+    kind: 'insight',
+  },
+];
+
+/** Product defaults, not customer data. New workspaces start with these agents idle. */
+export function createStarterAgents(): SalesAgent[] {
+  return [
+    {
+      id: 'jarvis',
+      name: 'Jarvis',
+      role: 'Jarvis Orchestrator',
+      summary: 'Turns a business goal into a safe, reviewable sales plan.',
+      icon: '✦',
+      color: '#635BFF',
+      status: 'Ready',
+      currentTask: 'Ready to understand your sales goal',
+    },
+    {
+      id: 'strategy',
+      name: 'Maya',
+      role: 'Growth Strategist',
+      summary: 'Finds the audience, offer, budget, and message angle.',
+      icon: '↗',
+      color: '#16B88A',
+      status: 'Ready',
+      currentTask: 'Ready for your first growth brief',
+    },
+    {
+      id: 'creative',
+      name: 'Nova',
+      role: 'Creative Studio',
+      summary: 'Writes ads, emails, captions, and landing-page copy.',
+      icon: '✎',
+      color: '#E55767',
+      status: 'Ready',
+      currentTask: 'Ready to turn your offer into a draft',
+    },
+    {
+      id: 'media',
+      name: 'Pixel',
+      role: 'Video & Image Lab',
+      summary: 'Creates image and video ad concepts from your business brief.',
+      icon: '◫',
+      color: '#F5A524',
+      status: 'Ready',
+      currentTask: 'Ready for a product brief or business document',
+    },
+    {
+      id: 'operations',
+      name: 'Orbit',
+      role: 'Campaign Operations',
+      summary: 'Plans schedules, audiences, consent checks, and experiments.',
+      icon: '◷',
+      color: '#16B8D4',
+      status: 'Ready',
+      currentTask: 'Ready to validate a future campaign',
+    },
+    {
+      id: 'publisher',
+      name: 'Pulse',
+      role: 'Publisher & Insights',
+      summary: 'Prepares approved work for publishing and tracks results.',
+      icon: '◎',
+      color: '#635BFF',
+      status: 'Ready',
+      currentTask: 'Waiting for an owner-approved campaign',
+    },
+    {
+      id: 'outreach',
+      name: 'Echo',
+      role: 'Outreach Assistant',
+      summary: 'Prepares consent-aware email, WhatsApp, and calling follow-ups.',
+      icon: '◌',
+      color: '#16B88A',
+      status: 'Ready',
+      currentTask: 'Ready after customer data and consent are available',
+    },
+  ];
+}
+
+/** Channel catalogue for a newly registered workspace. No provider is connected. */
+export function createStarterIntegrations(): Integration[] {
+  return demoIntegrations.map(integration => ({
+    ...integration,
+    status: 'Not connected',
+    account: undefined,
+  }));
+}
+
+export const emptyWorkspaceMetrics: WorkspaceMetrics = {
+  revenue: '₹0',
+  revenueHelper: 'Awaiting connected sales data',
+  qualifiedLeads: '0',
+  qualifiedHelper: 'Import or connect a source',
+  replies: '0',
+  repliesHelper: 'No activity yet',
+  meetings: '0',
+  meetingsHelper: 'No activity yet',
+  roi: '—',
+  roiHelper: 'Appears after campaign data',
+};
+
+export const demoWorkspaceMetrics: WorkspaceMetrics = {
+  revenue: '₹4.82L',
+  revenueHelper: '18.4% this month',
+  qualifiedLeads: '48',
+  qualifiedHelper: '+9 today',
+  replies: '31',
+  repliesHelper: '31% rate',
+  meetings: '12',
+  meetingsHelper: 'This month',
+  roi: '4.7x',
+  roiHelper: 'Above goal',
+};
