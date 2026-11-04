@@ -1,0 +1,37 @@
+server:
+  port: ${SERVER_PORT:8080}
+
+spring:
+  application:
+    name: toman-api-gateway
+  config:
+    import: optional:configserver:${CONFIG_SERVER_URL:http://localhost:8888}
+
+eureka:
+  client:
+    enabled: ${EUREKA_ENABLED:true}
+    service-url:
+      defaultZone: ${DISCOVERY_URL:http://localhost:8761/eureka/}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+info:
+  toman:
+    service: api-gateway
+
+toman:
+  gateway:
+    auth:
+      issuer: ${AUTH_JWT_ISSUER:toman-auth-service}
+      # Matches auth-service's local profile only. Use TOMAN_AUTH_JWT_SECRET outside local development.
+      signing-key-base64: ${TOMAN_AUTH_JWT_SECRET:aSOSUjgWSXMhoEinNdBqkm/BiKehjWAFFpnKVIaA664=}
+      downstream-shared-key: ${TOMAN_GATEWAY_INTERNAL_KEY:}
+      workspace-service-url: ${WORKSPACE_SERVICE_URL:http://localhost:8082}

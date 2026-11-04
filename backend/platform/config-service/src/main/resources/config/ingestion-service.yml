@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: ${INGESTION_DATABASE_URL:jdbc:mariadb://localhost:3306/toman_ingestion?useSsl=false}
+    username: ${INGESTION_DATABASE_USERNAME:toman_app}
+    password: ${INGESTION_DATABASE_PASSWORD:}
+
+eureka:
+  client:
+    enabled: ${EUREKA_ENABLED:true}
+    service-url:
+      defaultZone: ${DISCOVERY_URL:http://localhost:8761/eureka/}

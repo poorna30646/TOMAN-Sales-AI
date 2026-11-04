@@ -1,0 +1,10 @@
+spring:
+  config:
+    activate:
+      on-profile: test
+
+auth:
+  jwt:
+    signing-key-base64: aSOSUjgWSXMhoEinNdBqkm/BiKehjWAFFpnKVIaA664=
+  verification:
+    expose-code: true

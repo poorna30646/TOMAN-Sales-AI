@@ -1,0 +1,27 @@
+server:
+  port: ${SERVER_PORT:8761}
+
+spring:
+  application:
+    name: toman-discovery-service
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+  server:
+    enable-self-preservation: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+info:
+  toman:
+    service: discovery-service

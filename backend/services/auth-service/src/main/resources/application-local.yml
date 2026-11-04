@@ -1,0 +1,15 @@
+spring:
+  config:
+    activate:
+      on-profile: local
+
+auth:
+  # Local-only development key. Set TOMAN_AUTH_JWT_SECRET for any shared environment.
+  jwt:
+    signing-key-base64: ${TOMAN_AUTH_JWT_SECRET:aSOSUjgWSXMhoEinNdBqkm/BiKehjWAFFpnKVIaA664=}
+  verification:
+    # SMTP is configured for local development. Keep codes out of the API response.
+    expose-code: ${AUTH_EXPOSE_VERIFICATION_CODE:false}
+  allowed-origins:
+    - http://localhost:8091
+    - http://10.0.2.2:8091

@@ -1,0 +1,27 @@
+name: toman-sales-ai
+
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: toman-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-toman_root_dev_only}
+      MYSQL_DATABASE: toman_platform
+      MYSQL_USER: toman_app
+      MYSQL_PASSWORD: ${MYSQL_APP_PASSWORD:-toman_app_dev_only}
+    ports:
+      - "${MYSQL_PORT:-3306}:3306"
+    volumes:
+      - toman_mysql_data:/var/lib/mysql
+      - ./infrastructure/mysql/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 20s
+
+volumes:
+  toman_mysql_data:
+    name: toman_mysql_data

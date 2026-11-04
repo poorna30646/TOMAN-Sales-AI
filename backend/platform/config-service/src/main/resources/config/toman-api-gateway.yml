@@ -1,0 +1,40 @@
+spring:
+  cloud:
+    gateway:
+      server:
+        webmvc:
+          routes:
+            - id: auth-service
+              uri: lb://auth-service
+              predicates:
+                - Path=/api/v1/auth/**
+            - id: workspace-service
+              uri: lb://workspace-service
+              predicates:
+                - Path=/api/v1/workspaces/**,/api/v1/settings/**
+            - id: ingestion-service
+              uri: lb://ingestion-service
+              predicates:
+                - Path=/api/v1/documents/**
+            - id: jarvis-service
+              uri: lb://jarvis-service
+              predicates:
+                - Path=/api/v1/jarvis/**,/api/v1/agent-tasks/**
+            - id: workflow-service
+              uri: lb://workflow-service
+              predicates:
+                - Path=/api/v1/reviews/**,/api/v1/approvals/**
+            - id: integration-service
+              uri: lb://integration-service
+              predicates:
+                - Path=/api/v1/integrations/**
+            - id: notification-service
+              uri: lb://notification-service
+              predicates:
+                - Path=/api/v1/notifications/**
+
+eureka:
+  client:
+    enabled: ${EUREKA_ENABLED:true}
+    service-url:
+      defaultZone: ${DISCOVERY_URL:http://localhost:8761/eureka/}

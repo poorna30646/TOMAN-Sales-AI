@@ -1,0 +1,58 @@
+server:
+  port: ${SERVER_PORT:8086}
+
+spring:
+  application:
+    name: ingestion-service
+  config:
+    import: optional:configserver:${CONFIG_SERVER_URL:http://localhost:8888}
+  datasource:
+    url: ${INGESTION_DATABASE_URL:jdbc:mariadb://localhost:3306/toman_ingestion?useSsl=false}
+    username: ${INGESTION_DATABASE_USERNAME:toman_app}
+    password: ${INGESTION_DATABASE_PASSWORD:}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+        type:
+          preferred_uuid_jdbc_type: BINARY
+  flyway:
+    enabled: true
+  servlet:
+    multipart:
+      # Servlet-level rejection is kept in sync with the service validator.
+      max-file-size: ${DOCUMENT_MAX_UPLOAD_SIZE:25MB}
+      max-request-size: ${DOCUMENT_MAX_UPLOAD_SIZE:25MB}
+
+eureka:
+  client:
+    enabled: ${EUREKA_ENABLED:false}
+    service-url:
+      defaultZone: ${DISCOVERY_URL:http://localhost:8761/eureka/}
+
+toman:
+  ingestion:
+    # Configure an absolute mounted path outside the app's public/static tree
+    # in production. This local default is not mapped as a web resource.
+    storage-root: ${DOCUMENT_STORAGE_ROOT:./runtime/toman-ingestion-files}
+    max-upload-size: ${DOCUMENT_MAX_UPLOAD_SIZE:25MB}
+  gateway-trust:
+    shared-key: ${TOMAN_GATEWAY_INTERNAL_KEY:}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+info:
+  toman:
+    storage: private document ingestion only

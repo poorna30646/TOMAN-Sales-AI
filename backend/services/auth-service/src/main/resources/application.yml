@@ -1,0 +1,78 @@
+spring:
+  application:
+    name: auth-service
+  profiles:
+    default: local
+  config:
+    import: optional:configserver:${CONFIG_SERVER_URL:http://localhost:8888}
+  datasource:
+    url: ${AUTH_DATABASE_URL:jdbc:mariadb://localhost:3306/toman_auth?useSsl=false}
+    username: ${AUTH_DATABASE_USERNAME:toman_app}
+    password: ${AUTH_DATABASE_PASSWORD:}
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+  mail:
+    host: ${SMTP_HOST:}
+    port: ${SMTP_PORT:587}
+    username: ${SMTP_USERNAME:}
+    password: ${SMTP_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: ${SMTP_AUTH:true}
+          starttls:
+            enable: ${SMTP_STARTTLS_ENABLED:true}
+          connectiontimeout: ${SMTP_CONNECTION_TIMEOUT:5000}
+          timeout: ${SMTP_TIMEOUT:5000}
+          writetimeout: ${SMTP_WRITE_TIMEOUT:5000}
+
+server:
+  # Keep 8081 free for the React Native Metro bundler during local development.
+  port: ${SERVER_PORT:8091}
+  error:
+    include-message: never
+
+management:
+  health:
+    mail:
+      # SMTP connection checks can take several seconds and consume request threads.
+      # Email delivery itself remains enabled through SMTP_ENABLED; expose this
+      # optional probe only when a deployment has dedicated health-check capacity.
+      enabled: ${SMTP_HEALTH_ENABLED:false}
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+auth:
+  issuer: ${AUTH_JWT_ISSUER:toman-auth-service}
+  jwt:
+    # Required outside local/test. Supply a Base64-encoded 32-byte-or-longer random secret.
+    signing-key-base64: ${TOMAN_AUTH_JWT_SECRET:}
+    access-token-ttl: ${AUTH_ACCESS_TOKEN_TTL:PT15M}
+  refresh:
+    token-ttl: ${AUTH_REFRESH_TOKEN_TTL:P30D}
+  verification:
+    code-ttl: ${AUTH_VERIFICATION_CODE_TTL:PT10M}
+    code-length: ${AUTH_VERIFICATION_CODE_LENGTH:6}
+    max-attempts: ${AUTH_VERIFICATION_MAX_ATTEMPTS:5}
+    expose-code: false
+  mail:
+    enabled: ${SMTP_ENABLED:false}
+    from: ${SMTP_FROM:}
+    from-name: ${SMTP_FROM_NAME:TOMAN Sales AI}
+  allowed-origins: ${AUTH_ALLOWED_ORIGINS:}

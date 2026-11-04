@@ -1,0 +1,10 @@
+.env
+.env.*
+!.env.example
+**/target/
+*.log
+.idea/
+*.iml
+.vscode/
+data/
+config-repo/
